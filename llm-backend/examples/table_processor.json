@@ -1,0 +1,122 @@
+[
+  {
+    "query": "Show sales by region",
+    "result": {
+      "generated_code": "SELECT region, SUM(sales_amount) AS total_sales_amount FROM campaign_performance GROUP BY region ORDER BY total_sales_amount DESC;"
+    }
+  },
+  {
+    "query": "Show average order value by customer segment",
+    "result": {
+      "generated_code": "SELECT customer_segment, AVG(order_value) AS average_order_value FROM orders GROUP BY customer_segment ORDER BY average_order_value DESC LIMIT 10;"
+    }
+  },
+  {
+    "query": "Show total revenue by product category in Q1 2023",
+    "result": {
+      "generated_code": "SELECT product_category, SUM(revenue) AS total_revenue FROM sales WHERE date >= '2023-01-01' AND date <= '2023-03-31' GROUP BY product_category ORDER BY total_revenue DESC;"
+    }
+  },
+  {
+    "query": "Compare monthly sales for 2022 and 2023",
+    "result": {
+      "generated_code": "SELECT year, month, SUM(sales_amount) AS total_sales FROM sales_data WHERE year IN (2022, 2023) GROUP BY year, month ORDER BY year, month;"
+    }
+  },
+  {
+    "query": "Show top 10 customers by lifetime value",
+    "result": {
+      "generated_code": "SELECT customer_name, lifetime_value FROM customers ORDER BY lifetime_value DESC LIMIT 10;"
+    }
+  },
+  {
+    "query": "Find products with inventory below reorder point",
+    "result": {
+      "generated_code": "SELECT product_id, product_name, current_stock, reorder_point FROM inventory WHERE current_stock < reorder_point ORDER BY current_stock ASC;"
+    }
+  },
+  {
+    "query": "Show employee performance by department and seniority level",
+    "result": {
+      "generated_code": "SELECT department, seniority_level, AVG(performance_score) AS avg_performance FROM employee_data GROUP BY department, seniority_level ORDER BY department, avg_performance DESC;"
+    }
+  },
+  {
+    "query": "Show marketing campaign ROI by channel",
+    "result": {
+      "generated_code": "SELECT channel, AVG(roi) AS average_roi FROM campaign_data GROUP BY channel ORDER BY average_roi DESC;"
+    }
+  },
+  {
+    "query": "Show website traffic by source and device type",
+    "result": {
+      "generated_code": "SELECT traffic_source, device_type, SUM(visits) AS total_visits, SUM(page_views) AS total_page_views FROM web_traffic GROUP BY traffic_source, device_type ORDER BY total_visits DESC;"
+    }
+  },
+  {
+    "query": "Compare customer satisfaction scores across product lines",
+    "result": {
+      "generated_code": "SELECT product_line, AVG(satisfaction_score) AS avg_satisfaction FROM customer_feedback GROUP BY product_line ORDER BY avg_satisfaction DESC;"
+    }
+  },
+  {
+    "query": "Show a line chart of total ad spend over time",
+    "result": {
+      "generated_code": "SELECT date, SUM(ad_spend) AS total_ad_spend FROM ad_data GROUP BY date ORDER BY date;"
+    }
+  },
+  {
+    "query": "Create a bar chart comparing revenue by country",
+    "result": {
+      "generated_code": "SELECT country, SUM(revenue) AS total_revenue FROM sales_data GROUP BY country ORDER BY total_revenue DESC;"
+    }
+  },
+  {
+    "query": "Plot a heatmap showing average revenue by age group and country",
+    "result": {
+      "generated_code": "SELECT age_group, country, AVG(revenue) AS avg_revenue FROM user_data GROUP BY age_group, country;"
+    }
+  },
+  {
+    "query": "Visualize the correlation between ad spend and revenue",
+    "result": {
+      "generated_code": "SELECT ad_spend, revenue FROM campaign_data;"
+    }
+  },
+  {
+    "query": "Create a stacked bar chart of new accounts by campaign and age group",
+    "result": {
+      "generated_code": "SELECT campaign_id, age_group, SUM(new_accounts) AS total_new_accounts FROM campaign_data GROUP BY campaign_id, age_group;"
+    }
+  },
+  {
+    "query": "Show a pie chart of total leads by marketing channel",
+    "result": {
+      "generated_code": "SELECT channel, SUM(leads) AS total_leads FROM marketing_data GROUP BY channel;"
+    }
+  },
+  {
+    "query": "Plot a time series of average leads per day across all campaigns",
+    "result": {
+      "generated_code": "SELECT date, AVG(leads) AS avg_daily_leads FROM campaign_data GROUP BY date ORDER BY date;"
+    }
+  },
+  {
+    "query": "Display a scatter plot of views vs. leads with ad spend as the point size",
+    "result": {
+      "generated_code": "SELECT views, leads, ad_spend FROM campaign_data;"
+    }
+  },
+  {
+    "query": "Show a multi-line chart comparing revenue trends across channels",
+    "result": {
+      "generated_code": "SELECT date, channel, SUM(revenue) AS total_revenue FROM campaign_data GROUP BY date, channel ORDER BY date;"
+    }
+  },
+  {
+    "query": "Create a box plot of ad spend distribution across countries",
+    "result": {
+      "generated_code": "SELECT country, ad_spend FROM ad_data;"
+    }
+  }
+]

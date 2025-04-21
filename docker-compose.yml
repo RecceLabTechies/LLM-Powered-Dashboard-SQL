@@ -1,0 +1,88 @@
+services:
+    postgres:
+        image: postgres:15-alpine
+        ports:
+            - "5432:5432"
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+            - ./postgres-init:/docker-entrypoint-initdb.d
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=example
+            - POSTGRES_DB=app
+        restart: always
+
+    chromadb:
+        image: chromadb/chroma:latest
+        ports:
+            - "8000:8000"
+        volumes:
+            - chromadb_data:/chroma/data
+        environment:
+            - CHROMA_SERVER_HOST=0.0.0.0
+            - CHROMA_SERVER_HTTP_PORT=8000
+            - CHROMA_PERSIST_DIRECTORY=/chroma/data
+        restart: always
+
+    nginx:
+        build: ./nginx
+        ports:
+            - "80:80"
+        depends_on:
+            - frontend
+            - backend
+            - llm-backend
+        restart: always
+
+    backend:
+        build: ./backend
+        expose:
+            - "5000"
+        depends_on:
+            - postgres
+        environment:
+            - DATABASE_URL=postgresql://postgres:example@postgres:5432/app
+            - PORT=5000
+        restart: always
+
+    llm-backend:
+        build: ./llm-backend
+        expose:
+            - "5000"
+        depends_on:
+            - postgres
+            - chromadb
+        environment:
+            - DATABASE_URL=postgresql://postgres:example@postgres:5432/app
+            - PORT=5000
+            - PYTHONUNBUFFERED=1
+            - GROQ_API_KEY=${GROQ_API_KEY} # From .env file
+            - CHROMA_SERVER_HOST=chromadb
+            - CHROMA_SERVER_PORT=8000
+        restart: always
+
+    frontend:
+        build: ./frontend
+        expose:
+            - "3000"
+        environment:
+            - WATCHPACK_POLLING=true
+            - WDS_SOCKET_PORT=0
+            - NEXT_PUBLIC_API_URL=/api
+            - NEXT_PUBLIC_LLM_API_URL=/llm-api
+        volumes:
+            - ./frontend:/app
+            - /app/node_modules
+            - /app/.next
+        depends_on:
+            - backend
+            - llm-backend
+        restart: always
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+
+volumes:
+    postgres_data:
+        driver: local
+    chromadb_data:
+        driver: local
